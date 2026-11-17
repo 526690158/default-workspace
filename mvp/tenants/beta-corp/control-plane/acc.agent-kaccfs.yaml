@@ -1,0 +1,42 @@
+acc:
+  id: agent-kaccfs
+  version: 0.1.0
+  type: agent
+  capability: 客服专员
+  owner:
+    team: auto
+    human_owner: 老张
+    agent_owner: lead
+  purpose: ''
+  non_purpose: ''
+  autonomy:
+    level: L1
+    policy: default-enterprise
+  tools:
+    allow: []
+    deny: []
+  data_scope: []
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  verification:
+    oracles: []
+    accuracy_threshold: 0.9
+  supervision:
+    supervisor: 李经理
+    mode: periodic
+  acceptance:
+    by: 王总
+    criteria: []
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L2
+  observability:
+    audit: full
+  identity:
+    account: agent-kaccfs
+  responsibility:
+    accountable_to: 老张
+    audit: full

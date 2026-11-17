@@ -1,0 +1,49 @@
+acc:
+  id: inventory-agent
+  version: 0.1.0
+  type: agent
+  capability: 库存监控与补货
+  owner:
+    team: supply-chain
+    human_owner: 计划员（人）
+    agent_owner: supply-chain-lead
+  purpose: 监控库存水位，低于阈值时生成补货信号，并在边界内自动发起补货
+  non_purpose: 不得采购新品类、不得超预算、不得改供应商
+  autonomy:
+    level: L3
+    policy: default-enterprise
+    overrides:
+      - when: replenish_amount > 50000
+        min_level: L2
+  interaction:
+    topology: specialist
+    leader: supply-chain-lead
+    peers:
+      - procurement-agent
+  tools:
+    allow:
+      - name: erp.inventory.read
+      - name: erp.replenish.create
+    deny:
+      - erp.payment
+  data_scope:
+    - inventory.read
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  verification:
+    oracles:
+      - 补货量落在安全库存区间
+    accuracy_threshold: 0.95
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L3
+  observability:
+    audit: full
+  identity:
+    account: inventory-agent
+  responsibility:
+    accountable_to: 计划员（人）
+    audit: full

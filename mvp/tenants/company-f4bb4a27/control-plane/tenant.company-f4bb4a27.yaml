@@ -1,0 +1,19 @@
+tenant:
+  id: company-f4bb4a27
+  name: 北京小区隔音表现对比公司
+  isolation:
+    mode: process
+    workspace_root: /Users/ld/repo/default-workspace/mvp/tenants/company-f4bb4a27/workspace
+    upgrade_path:
+      - process
+      - container
+  identity_domain:
+    idp: local
+  quota:
+    max_agents: 6
+    max_concurrent_tasks: 20
+  compliance:
+    data_residency: local
+    retention_days: 365
+  audit:
+    full_trace: true

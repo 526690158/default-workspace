@@ -1,0 +1,18 @@
+# Tenant（租户）：Beta 物流 —— 第二个企业，独立隔离的空间
+tenant:
+  id: beta-corp
+  name: Beta 物流有限公司
+  isolation:
+    mode: process
+    workspace_root: /Users/ld/Documents/deepseek-harness/default-workspace/mvp/runtime/beta-corp
+    upgrade_path: [process, container, vm]
+  identity_domain:
+    idp: local
+  quota:
+    max_agents: 20
+    max_concurrent_tasks: 50
+  compliance:
+    data_residency: cn
+    retention_days: 365
+  audit:
+    full_trace: true

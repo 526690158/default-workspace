@@ -1,0 +1,18 @@
+# Tenant（租户）：Acme 制造 —— 一个企业 = 一个隔离空间
+tenant:
+  id: acme-corp
+  name: Acme 制造有限公司
+  isolation:
+    mode: process                  # MVP：进程级隔离（本工作区即该租户的数据空间根）
+    workspace_root: /Users/ld/Documents/deepseek-harness/default-workspace/mvp/runtime
+    upgrade_path: [process, container, vm]
+  identity_domain:
+    idp: local                     # 人 + Agent 共用的本地身份
+  quota:
+    max_agents: 6                  # MVP 限制：2 个 Agent 同事
+    max_concurrent_tasks: 20
+  compliance:
+    data_residency: cn
+    retention_days: 365
+  audit:
+    full_trace: true

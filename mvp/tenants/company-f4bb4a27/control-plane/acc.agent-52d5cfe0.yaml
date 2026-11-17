@@ -1,0 +1,43 @@
+acc:
+  id: agent-52d5cfe0
+  version: 0.1.0
+  type: agent
+  capability: 从小红书、抖音评论等平台抓取用户关于小区隔音的主观评价数据
+  identity:
+    account: agent-52d5cfe0
+  owner:
+    team: auto
+    human_owner: 小林
+    agent_owner: lead
+  responsibility:
+    accountable_to: 小林
+    audit: full
+  purpose: 定期爬取并清洗数据，确保数据真实、可比
+  non_purpose: 不爬取隐私信息、不涉及政治敏感内容
+  autonomy:
+    level: L2
+    policy: default-enterprise
+  tools:
+    allow:
+      - name: web_crawler
+    deny: []
+  data_scope: []
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  verification:
+    oracles: []
+    accuracy_threshold: 0.9
+  supervision:
+    supervisor: 老李
+    mode: periodic
+  acceptance:
+    by: 王总
+    criteria: []
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L2
+  observability:
+    audit: full

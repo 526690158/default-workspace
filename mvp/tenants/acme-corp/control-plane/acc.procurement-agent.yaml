@@ -1,0 +1,58 @@
+acc:
+  id: procurement-agent
+  version: 0.1.0
+  type: agent
+  capability: 采购寻源
+  owner:
+    team: supply-chain
+    human_owner: 采购主管（人）
+    agent_owner: supply-chain-lead
+  purpose: 询价比价、生成采购建议与采购订单草稿
+  non_purpose: 不得签署合同、不得付款、不得修改供应商准入名单
+  autonomy:
+    level: L3
+    policy: default-enterprise
+    overrides:
+      - when: supplier_risk == high
+        min_level: L3
+  interaction:
+    topology: specialist
+    leader: supply-chain-lead
+    peers:
+      - inventory-agent
+  tools:
+    allow:
+      - name: erp.read
+      - name: erp.po.create
+        mode: draft
+      - name: web.search
+    deny:
+      - erp.payment
+      - erp.contract.sign
+  data_scope:
+    - suppliers.basic
+    - inventory.read
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  model_policy:
+    providers:
+      - ollama
+    default_model: qwen3:4b-instruct
+  verification:
+    oracles:
+      - 比价结果含 >= 3 家供应商
+      - 价格落在历史区间 [P10, P90]
+    accuracy_threshold: 0.95
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L2
+  observability:
+    audit: full
+  identity:
+    account: procurement-agent
+  responsibility:
+    accountable_to: 采购主管（人）
+    audit: full

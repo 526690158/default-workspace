@@ -1,0 +1,19 @@
+tenant:
+  id: company-6f7552b5
+  name: 主题读书会公司
+  isolation:
+    mode: process
+    workspace_root: /Users/ld/repo/default-workspace/mvp/tenants/company-6f7552b5/workspace
+    upgrade_path:
+      - process
+      - container
+  identity_domain:
+    idp: local
+  quota:
+    max_agents: 6
+    max_concurrent_tasks: 20
+  compliance:
+    data_residency: local
+    retention_days: 365
+  audit:
+    full_trace: true

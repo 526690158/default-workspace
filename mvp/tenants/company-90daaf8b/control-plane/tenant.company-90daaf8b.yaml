@@ -1,0 +1,19 @@
+tenant:
+  id: company-90daaf8b
+  name: 企业数字经营空间
+  isolation:
+    mode: process
+    workspace_root: /Users/ld/repo/default-workspace/mvp/tenants/company-90daaf8b/workspace
+    upgrade_path:
+      - process
+      - container
+  identity_domain:
+    idp: local
+  quota:
+    max_agents: 6
+    max_concurrent_tasks: 20
+  compliance:
+    data_residency: local
+    retention_days: 365
+  audit:
+    full_trace: true

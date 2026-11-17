@@ -1,0 +1,46 @@
+acc:
+  id: agent-kaj566
+  version: 0.1.0
+  type: agent
+  capability: 库存台账维护、库存水位监控与预警、出入库单据核对、盘点差异分析、补货建议生成
+  owner:
+    team: auto
+    human_owner: 我
+    agent_owner: lead
+  purpose: 负责库存数据的准确性与及时性，监控库存水位并预警，输出补货与呆滞处理建议
+  non_purpose: 不得直接对外下采购订单、不得擅自调整库存账面数据、不得处置资产或资金
+  autonomy:
+    level: L3
+    policy: default-enterprise
+  tools:
+    allow:
+      - name: 库存台账系统
+      - name: 出入库单据
+      - name: 盘点工具
+      - name: 报表导出
+    deny: []
+  data_scope: []
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  verification:
+    oracles: []
+    accuracy_threshold: 0.9
+  supervision:
+    supervisor: 待定
+    mode: periodic
+  acceptance:
+    by: 待定
+    criteria: []
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L2
+  observability:
+    audit: full
+  identity:
+    account: agent-kaj566
+  responsibility:
+    accountable_to: 我
+    audit: full

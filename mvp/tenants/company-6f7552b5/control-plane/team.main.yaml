@@ -1,0 +1,20 @@
+team:
+  id: main
+  name: 主题读书会公司团队
+  tenant: company-6f7552b5
+  leader:
+    mode: co_governance
+    human: 张伟
+    agent: concierge
+    decision_protocol:
+      L0-L2: human_approves
+      L3: human_co_signs
+      L4: human_decides
+  members:
+    - subject: human:张伟
+      role: 张伟
+    - subject: agent:agent-435e0f30
+      role: 内容策划员
+      acc: agent-435e0f30
+  task_board:
+    handoff_allowed: true

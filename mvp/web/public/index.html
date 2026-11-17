@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>共创 OS · 数字团队工作台</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body class="chat-page">
+  <header class="sidebar">
+    <div class="brand">
+      <span class="logo" aria-hidden="true">✳</span>
+      <div>
+        <h1>共创 OS</h1>
+        <p class="sub">你的数字团队工作台</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <nav aria-label="主导航">
+        <div class="nav-group-label">工作空间</div>
+        <button class="tab active" data-tab="chat"><span class="nav-icon">✦</span> 开始创建</button>
+        <button class="tab" data-tab="overview"><span class="nav-icon">▦</span> 总览</button>
+        <button class="tab" data-tab="team"><span class="nav-icon">♧</span> 数字团队</button>
+        <button class="tab" data-tab="tasks"><span class="nav-icon">☑</span> 任务板</button>
+        <div class="nav-group-label nav-group-gap">管理与治理</div>
+        <button class="tab" data-tab="create"><span class="nav-icon">＋</span> 高级配置</button>
+        <button class="tab" data-tab="contracts"><span class="nav-icon">▤</span> 岗位契约</button>
+        <button class="tab" data-tab="compile"><span class="nav-icon">⌘</span> 契约编译</button>
+        <button class="tab" data-tab="align"><span class="nav-icon">◎</span> 对齐校验</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="tenant-heading"><span class="sidebar-bottom-label">当前经营空间</span><button id="tenant-rename-start" class="tenant-rename-link" type="button">重命名</button></div>
+        <select id="tenant-select" class="tenant-select" title="切换经营空间"></select>
+        <form id="tenant-rename-form" class="tenant-rename-form" hidden>
+          <input id="tenant-rename-input" maxlength="80" aria-label="新的经营空间名称" placeholder="新的空间名称" required />
+          <div><button type="submit">保存</button><button id="tenant-rename-cancel" type="button">取消</button></div>
+        </form>
+        <span id="tenant-rename-status" class="tenant-rename-status" aria-live="polite"></span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="workspace-topbar"><div class="breadcrumbs">工作空间 <span>/</span> <strong>开始创建</strong></div><div class="model-badge"><span class="model-dot"></span> 本地 Ollama <span class="model-name">· qwen3:4b-instruct</span></div></div>
+    <!-- 总览（产品全貌） -->
+    <section id="tab-overview" class="panel">
+      <div class="hero">
+        <h2>企业数字经营操作系统</h2>
+        <p>不是给某家企业定制系统，而是一台"操作系统"：企业在其上自助构建数字经营空间，<b>人（碳基）与 AI（硅基）作为平等主体共同经营</b>。</p>
+      </div>
+
+      <h3 class="section-title">五层架构 · 当前实现状态</h3>
+      <div id="layer-map" class="layer-map"></div>
+
+      <h3 class="section-title">当前企业概览</h3>
+      <div id="org-brief" class="org-brief"></div>
+
+      <h3 class="section-title">从这里开始体验</h3>
+      <div class="steps">
+        <div class="step"><b>① 描述目标</b><span>在「开始创建」用自然语言说明想做什么</span></div>
+        <div class="step"><b>② 建立权责</b><span>对话中确认公司、员工职责和禁止事项</span></div>
+        <div class="step"><b>③ 执行任务</b><span>Workflow 按阶段推进；Agent 自主调用工具</span></div>
+        <div class="step"><b>④ 验收反馈</b><span>AI 起草，最终由人验收并留下审计记录</span></div>
+      </div>
+    </section>
+
+    <!-- 对话（Concierge Agent） -->
+    <section id="tab-chat" class="panel active studio-panel">
+      <div class="studio-hero">
+        <h2>和 <em>经营总管</em> 一起做事</h2>
+        <p>选择经营空间，为一个目标开启对话。</p>
+      </div>
+      <div class="studio-shell">
+        <div class="studio-modes" role="group" aria-label="执行方式">
+          <button id="mode-agent" class="studio-mode active" type="button"><span class="mode-symbol agent-symbol">✦</span><span><strong>Agent</strong><small>自主推进</small></span></button>
+          <button id="mode-workflow" class="studio-mode" type="button"><span class="mode-symbol workflow-symbol">⌘</span><span><strong>Workflow</strong><small>逐步引导</small></span></button>
+        </div>
+        <div id="studio-explanation" class="hint">沿用现有团队，关键操作会请你确认。</div>
+        <div class="conversation-scope" aria-live="polite">
+          <div><span>任务归属</span><strong id="chat-tenant-name"></strong></div>
+          <div><span>当前目标</span><strong id="chat-goal-title">新目标</strong></div>
+          <div class="conversation-history"><label for="chat-history">历史对话</label><select id="chat-history"><option value="">选择一段对话</option></select><button id="chat-history-open" type="button" class="ghost small">打开</button></div>
+        </div>
+        <div id="studio-progress" class="studio-progress"></div>
+        <div id="chat-log" class="chat-log" aria-live="polite"></div>
+        <div class="chat-compose">
+          <div class="chat-input-row">
+            <input id="chat-input" aria-label="输入你的目标" placeholder="描述新目标，例如：对比北京小区的隔音表现…" />
+            <button id="chat-send" class="primary" aria-label="发送消息">发送 <span aria-hidden="true">↗</span></button>
+          </div>
+          <div class="compose-footer"><span>任务将归属上方经营空间 · 新话题请开启新目标</span><button id="chat-new" class="ghost small">开启新目标</button></div>
+        </div>
+      </div>
+      <div class="prompt-suggestions" aria-label="试试这些例子"><span>试试这样说</span><button type="button" data-prompt="先查看当前经营空间的团队，建议下一项可以安排的任务">看看团队 <span>↗</span></button><button type="button" data-prompt="帮当前经营空间招一位 AI 同事，先和我讨论岗位职责">招一位 AI 同事 <span>↗</span></button><button type="button" data-prompt="帮我在当前经营空间创建一个新任务，先确认归属和执行员工">安排新任务 <span>↗</span></button></div>
+    </section>
+
+    <!-- 建岗位 -->
+    <section id="tab-create" class="panel">
+      <div class="toolbar">
+        <p>不用写代码，填表就能创建一个「硅基同事」加入当前企业的经营空间。</p>
+      </div>
+      <form id="agent-form" class="form">
+        <label>岗位模板（选一个自动填充，含推荐自治等级）
+          <select id="f-template"><option value="">— 自定义（手动填写）—</option></select>
+        </label>
+        <div id="template-hint" class="hint"></div>
+        <div class="form-row">
+          <label>岗位名称 <input id="f-role" placeholder="如：客服专员" required /></label>
+          <label>能力（它负责什么） <input id="f-capability" placeholder="如：客户咨询" required /></label>
+        </div>
+        <label>职责（能做什么）<textarea id="f-purpose" placeholder="如：回答客户咨询、记录工单"></textarea></label>
+        <label>边界（绝不能做什么）<textarea id="f-nonpurpose" placeholder="如：不得退款、不得私自改价"></textarea></label>
+        <div class="form-row three">
+          <label>负责人（谁负责） <input id="f-owner" placeholder="如：采购主管" /></label>
+          <label>监督人（谁监督） <input id="f-supervisor" placeholder="如：采购主管" /></label>
+          <label>验收人（谁验收） <input id="f-acceptor" placeholder="如：财务经理" /></label>
+        </div>
+        <div class="form-row">
+          <label>自治等级
+            <select id="f-autonomy">
+              <option value="L0">L0 观察（只能看，全由人决定）</option>
+              <option value="L1">L1 起草（出草稿，人执行）</option>
+              <option value="L2" selected>L2 预备（出草稿，人审批）</option>
+              <option value="L3">L3 有界执行（边界内自动，人会签）</option>
+              <option value="L4">L4 高自主（仅明确授权）</option>
+            </select>
+          </label>
+        </div>
+        <label>技能 / 工具（勾选它能用的）
+          <div class="tools-grid">
+            <label class="chk"><input type="checkbox" value="erp.read" checked /> 读ERP</label>
+            <label class="chk"><input type="checkbox" value="erp.po.create" /> 建采购单草稿</label>
+            <label class="chk"><input type="checkbox" value="erp.inventory.read" /> 读库存</label>
+            <label class="chk"><input type="checkbox" value="web.search" checked /> 联网搜索</label>
+            <label class="chk"><input type="checkbox" value="crm.read" /> 读CRM</label>
+            <label class="chk"><input type="checkbox" value="report.generate" /> 生成报表</label>
+          </div>
+        </label>
+        <label class="checkline"><input id="role-boundary" type="checkbox" required /> 我已核对岗位职责、禁止事项、工具权限，以及负责人和验收人。</label>
+        <div class="form-actions">
+          <button type="submit" class="primary">创建硅基同事</button>
+          <span id="form-status" class="status"></span>
+        </div>
+      </form>
+    </section>
+
+    <!-- 契约编辑器 -->
+    <section id="tab-contracts" class="panel">
+      <div class="split">
+        <aside id="contract-list" class="list"></aside>
+        <div class="editor">
+          <div class="editor-head">
+            <span id="current-file">—</span>
+            <button id="save-btn" class="primary">保存契约</button>
+          </div>
+          <textarea id="yaml-editor" spellcheck="false" placeholder="选择左侧契约文件进行编辑"></textarea>
+          <div id="save-status" class="status"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 契约编译 -->
+    <section id="tab-compile" class="panel">
+      <div class="toolbar">
+        <p>把岗位契约编译为执行清单。新任务请在对话或任务板用本地模型执行。</p>
+        <div class="btn-group">
+          <button id="compile-btn" class="primary">编译契约</button>
+        </div>
+      </div>
+      <pre id="compile-output" class="code">点击「编译」查看结果。</pre>
+    </section>
+
+    <!-- 团队 -->
+    <section id="tab-team" class="panel">
+      <div class="toolbar"><p id="team-title">团队</p><button id="refresh-btn" class="ghost">刷新</button></div>
+      <div id="team-roster" class="roster"></div>
+    </section>
+
+    <!-- 任务板 -->
+    <section id="tab-tasks" class="panel">
+      <div class="toolbar">
+        <p>共享任务板（一期状态机：新建→处理中→待审批→完成）</p>
+        <div class="btn-group">
+          <button id="reset-tasks-btn" class="ghost">重置演示流程</button>
+          <button id="refresh-btn2" class="ghost">刷新</button>
+        </div>
+      </div>
+      <form id="task-form" class="form task-form">
+        <h3>创建任务</h3>
+        <label>交给哪位 AI 员工<select id="task-owner" required></select></label>
+        <label>要做什么<input id="task-subject" placeholder="如：为周末读书会起草一条群通知" required /></label>
+        <label>已知信息<textarea id="task-context" placeholder="如：周六下午 3 点，社区活动室；免费；请参加者带一本喜欢的书"></textarea></label>
+        <label>怎样算完成<input id="task-criterion" placeholder="如：包含时间、地点、是否收费、需带物品" required /></label>
+        <label class="checkline"><input id="task-boundary" type="checkbox" required /> 我确认 AI 只生成草稿，不自动发送、发布或操作外部系统。</label>
+        <div class="form-actions"><button type="submit" class="primary">创建任务</button><span id="task-form-status" class="status"></span></div>
+      </form>
+      <div id="task-board" class="board"></div>
+    </section>
+
+    <!-- 对齐校验（L3） -->
+    <section id="tab-align" class="panel">
+      <div class="toolbar">
+        <p>L3 认知协同层 · 硬规则对齐校验（每次必跑，毫秒级）</p>
+        <button id="align-btn" class="primary">运行对齐校验</button>
+      </div>
+      <div id="align-result" class="align-list">点击「运行对齐校验」检查当前企业契约是否自洽。</div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

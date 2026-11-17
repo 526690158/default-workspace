@@ -1,0 +1,17 @@
+team:
+  id: main
+  name: 企业数字经营空间团队
+  tenant: company-90daaf8b
+  leader:
+    mode: co_governance
+    human: 张伟
+    agent: concierge
+    decision_protocol:
+      L0-L2: human_approves
+      L3: human_co_signs
+      L4: human_decides
+  members:
+    - subject: human:张伟
+      role: 张伟
+  task_board:
+    handoff_allowed: true

@@ -1,0 +1,6 @@
+mvp/web/node_modules/
+mvp/studio-sessions/
+mvp/live-session.json
+mvp/tenants/*/state.json
+mvp/tenants/*/audit.jsonl
+.DS_Store

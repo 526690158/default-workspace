@@ -1,0 +1,26 @@
+team:
+  id: beta-sales
+  name: 销售团队
+  tenant: beta-corp
+  leader:
+    mode: co_governance
+    human: 销售总监（人）
+    agent: sales-lead
+    decision_protocol:
+      L0-L2: agent_decides_human_can_veto
+      L3: agent_proposes_human_co_signs
+      L4: human_decides
+  members:
+    - subject: agent:agent-d5upd8
+      role: 物流调度员
+      acc: agent-d5upd8
+    - subject: agent:agent-kaccfs
+      role: 客服专员
+      acc: agent-kaccfs
+  capabilities: []
+  task_board:
+    claim_policy: any
+    handoff_allowed: true
+    sla:
+      default_minutes: 240
+      escalate_on_breach: true

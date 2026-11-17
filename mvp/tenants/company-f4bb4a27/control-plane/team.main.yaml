@@ -1,0 +1,20 @@
+team:
+  id: main
+  name: 北京小区隔音表现对比公司团队
+  tenant: company-f4bb4a27
+  leader:
+    mode: co_governance
+    human: 张伟
+    agent: concierge
+    decision_protocol:
+      L0-L2: human_approves
+      L3: human_co_signs
+      L4: human_decides
+  members:
+    - subject: human:张伟
+      role: 张伟
+    - subject: agent:agent-52d5cfe0
+      role: 爬虫员
+      acc: agent-52d5cfe0
+  task_board:
+    handoff_allowed: true

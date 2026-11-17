@@ -1,0 +1,13 @@
+{
+  "name": "enterprise-os-control-plane",
+  "version": "0.1.0",
+  "private": true,
+  "description": "企业操作系统 —— Web 控制面（契约编辑 + 编译 + 团队/任务板）",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test governance.test.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

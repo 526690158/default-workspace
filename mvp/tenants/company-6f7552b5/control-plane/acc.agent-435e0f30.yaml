@@ -1,0 +1,44 @@
+acc:
+  id: agent-435e0f30
+  version: 0.1.0
+  type: agent
+  capability: 内容策划员
+  identity:
+    account: agent-435e0f30
+  owner:
+    team: auto
+    human_owner: 小林
+    agent_owner: lead
+  responsibility:
+    accountable_to: 小林
+    audit: full
+  purpose: 策划读书会主题、选书清单、活动流程，确保内容有深度和吸引力。
+  non_purpose: 不能自行决定书籍采购或与外部机构合作，需经负责人审批；不能修改用户报名信息或承诺服务内容；不能发布未经审核的活动内容。
+  autonomy:
+    level: L2
+    policy: default-enterprise
+  tools:
+    allow:
+      - name: 内容策划模板
+      - name: 主题推荐库
+    deny: []
+  data_scope: []
+  memory:
+    short_term: session
+    long_term:
+      write: false
+      retention_days: 90
+  verification:
+    oracles: []
+    accuracy_threshold: 0.9
+  supervision:
+    supervisor: 老李
+    mode: periodic
+  acceptance:
+    by: 王总
+    criteria: []
+  human_interaction:
+    ambiguity: escalate
+    risk_level_above: L2
+  observability:
+    audit: full

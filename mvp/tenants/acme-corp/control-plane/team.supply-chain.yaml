@@ -1,0 +1,37 @@
+team:
+  id: supply-chain
+  name: 供应链团队
+  tenant: acme-corp
+  leader:
+    mode: co_governance
+    human: 采购主管（人）
+    agent: supply-chain-lead
+    decision_protocol:
+      L0-L2: agent_decides_human_can_veto
+      L3: agent_proposes_human_co_signs
+      L4: human_decides
+  members:
+    - subject: human:采购主管
+      role: 采购主管
+      acc: human_role:purchase-approver
+    - subject: human:计划员
+      role: 计划员
+      acc: human_role:planner
+    - subject: agent:procurement-agent
+      role: 采购助手
+      acc: procurement-agent
+    - subject: agent:inventory-agent
+      role: 库存机器人
+      acc: inventory-agent
+    - subject: agent:agent-kaj566
+      role: 库存管理员
+      acc: agent-kaj566
+  capabilities:
+    - procurement-agent
+    - inventory-agent
+  task_board:
+    claim_policy: any
+    handoff_allowed: true
+    sla:
+      default_minutes: 240
+      escalate_on_breach: true

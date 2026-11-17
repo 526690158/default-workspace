@@ -1,0 +1,37 @@
+autonomy_policy:
+  id: default-enterprise
+  levels:
+    - level: L0
+      name: 观察
+      agent_action: read_only
+      human_role: owner
+      decision: human_decides
+    - level: L1
+      name: 起草
+      agent_action: draft
+      human_role: executor
+      decision: human_decides
+    - level: L2
+      name: 预备
+      agent_action: prepare
+      human_role: approver
+      decision: human_approves
+    - level: L3
+      name: 有界执行
+      agent_action: execute_bounded
+      human_role: overseer
+      decision: agent_decides_human_co_signs
+    - level: L4
+      name: 高自主
+      agent_action: execute_high
+      human_role: owner
+      decision: human_decides
+  escalation_rules:
+    - when: amount > 100000
+      min_level: L2
+    - when: data_class in [PII, financial]
+      min_level: L2
+    - when: action in [sign_contract, pay]
+      min_level: L4
+    - when: supplier_risk == high
+      min_level: L3
